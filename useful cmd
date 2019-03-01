@@ -1,5 +1,5 @@
 #shell:startup
-;open startup directory directorily in file explorer
+;open startup directory directly in file explorer
 
 #netstat -an -p -tcp
 ;network connet status;
