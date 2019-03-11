@@ -1,2 +1,53 @@
 プロセスのメモリ情報を取得
 GetProcessMemoryInfo
+
+可変引数使い方
+void dbg_printf(char *format, ...)										/* 配列列用 ﾃﾞﾊﾞｯｸﾞ関数 				*/
+{
+	FILE		*fTracep;
+	time_t		long_time;
+	struct tm	*newtime;
+	va_list 	argptr; 												/* 引数リスト（先頭）					*/
+	CHAR		fBuffer[4096];
+	char		logfile[100] = "D:\\nicecat\\log\\";					/* ログファイル名						*/
+	CHAR		strday[10] = "";										/* 日の文字列							*/
+
+	if (dbglogflg == FALSE) {											/* フラグ無効の場合、デバッグログ出力しない */
+		return;
+	}
+	va_start(argptr, format);											/* 可変長引数ポインタの初期化			*/
+	vsprintf(fBuffer, format, argptr);									/* 可変長引数出力						*/
+	va_end(argptr); 													/* 引数ﾘｽﾄをﾘｾｯﾄする;					*/
+
+	time(&long_time);													/* long 整数として時刻を取得			*/
+	newtime = localtime(&long_time);									/* 現地時刻に変換						*/
+
+	/* デバッグログファイル名を設定する 	  */
+	itoa(ptaskno.task_no, tskname, 10);
+	strcat(logfile, tskname);
+	strcat(logfile, "_KAMT232KR_");
+	itoa(newtime->tm_mday, strday, 10);
+	strcat(logfile, strday);
+	strcat(logfile, ".log");
+
+	/* 一か月が終わったら、ログファイルを新しく作る */
+	if (gmonth[newtime->tm_mday - 1] != newtime->tm_mon) {
+		gmonth[newtime->tm_mday - 1] = newtime->tm_mon;
+		remove(logfile);
+	}
+
+	fTracep = fopen(logfile, "a+");
+	if (fTracep != NULL)
+	{
+		fprintf(fTracep, "%02d %02d:%02d:%02d [%Id]	%s",
+			newtime->tm_mday,
+			newtime->tm_hour,
+			newtime->tm_min,
+			newtime->tm_sec
+			, WorkSize()
+			, fBuffer
+			);
+		fflush(fTracep);
+	}
+	fclose(fTracep);
+}
