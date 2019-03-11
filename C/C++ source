@@ -51,3 +51,7 @@ void dbg_printf(char *format, ...)										/* 配列列用 ﾃﾞﾊﾞｯｸ�
 	}
 	fclose(fTracep);
 }
+
+C参考資料
+https://programming-place.net/ppp/contents/c/053.html
+
