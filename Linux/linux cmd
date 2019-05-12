@@ -12,6 +12,4 @@ $sudo +[cmd]
 $sudo apt update
 $sudo apt upgrade
 
-
-
-
+####
