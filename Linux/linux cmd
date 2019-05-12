@@ -1,0 +1,17 @@
+####WSL
+windows subsystem for Linux
+
+####install / uninstall:
+lxrun /uninstall /full
+lxrun /install
+
+####root 権限
+$sudo +[cmd]
+
+####apt update / upgrade
+$sudo apt update
+$sudo apt upgrade
+
+
+
+
